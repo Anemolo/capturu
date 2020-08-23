@@ -7,6 +7,7 @@ const {
 	logStep,
 	logStepDone,
 	publishToVercel,
+	getCaptureData,
 } = require("../utils");
 const { paths } = require("../config");
 
@@ -25,7 +26,7 @@ function updateCaptureData() {
 }
 
 async function afterCapture(options = {}) {
-	captureData = JSON.parse(fs.readFileSync(paths.captureData));
+	captureData = await getCaptureData();
 	logSectionStart("AFTER RECORD");
 	if (captureData.needsReset) {
 		logStep("Resetting ShareX data.");

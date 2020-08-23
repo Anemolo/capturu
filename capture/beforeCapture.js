@@ -7,6 +7,7 @@ const {
 	logStep,
 	logStepDone,
 	log,
+	getCaptureData,
 } = require("../utils");
 
 let state = {
@@ -26,6 +27,9 @@ function setupShareXConfig() {
 	// And use my custom name. (ShareX can make automatic names, but this allows me to sync it with everything else)
 	appConfigJSON.DefaultTaskSettings.UploadSettings.NameFormatPattern =
 		state.outputFilename;
+	// For screenshots
+	appConfigJSON.DefaultTaskSettings.UploadSettings.NameFormatPatternActiveWindow =
+		state.outputFilename;
 	log("Name:", state.outputFilename);
 
 	fs.writeFileSync(paths.shareXConfig, JSON.stringify(appConfigJSON));
@@ -39,9 +43,9 @@ function saveCaptureData(name) {
 	fs.writeFileSync(paths.captureData, JSON.stringify(captureDataJSON));
 }
 
-function beforeCapture(options) {
+async function beforeCapture(options) {
 	logSectionStart("BEFORE CAPTURE");
-	state.captureDataJSON = JSON.parse(fs.readFileSync(paths.captureData));
+	state.captureDataJSON = await getCaptureData();
 	state.outputFilename = generateName(
 		state.captureDataJSON.index,
 		options.name

@@ -1,26 +1,17 @@
 const fs = require("fs");
 const { exec } = require("child_process");
 const program = require("commander");
+const defaults = require("object.defaults");
 const { paths, ...config } = require("../config");
 const { logSectionStart, logSectionEnd } = require("../utils");
 const { afterCapture } = require("./afterCapture");
 const { beforeCapture } = require("./beforeCapture");
 
-// program
-// 	.arguments("[name]")
-// 	.option("-p|--publish", "Publish to vercel")
-// 	.action((name) => {
-// 		init({
-// 			publish: program.publish,
-// 			name,
-// 		});
-// 	})
-// 	.parse(process.argv);
-
-function shareXRecord() {
+function shareXRecord({ workflow }) {
+	console.log(workflow);
 	return new Promise((res, rej) => {
 		exec(
-			`${paths.shareXCMD} -workflow \"${config.shareXWorkflow}\" -autoclose -m -nohotkeys -s`,
+			`${paths.shareXCMD} -workflow \"${workflow}\" -autoclose -m -nohotkeys -s`,
 			(err, results) => {
 				res();
 			}
@@ -29,13 +20,21 @@ function shareXRecord() {
 }
 
 async function capture(options) {
-	beforeCapture(options);
+	defaults(options, {
+		publish: false,
+		name: null,
+		workflow: config.shareXWorkflow,
+	});
+
+	await beforeCapture(options);
 
 	logSectionStart("CAPTURING");
-	await shareXRecord();
+	await shareXRecord({
+		workflow: options.workflow,
+	});
 	logSectionEnd("CAPTURING");
 
-	afterCapture(options);
+	await afterCapture(options);
 }
 
 module.exports = {
