@@ -17,7 +17,7 @@ if (packageJSON.capturu) {
 }
 let config = {
 	paths: {
-		captureData: path.resolve(cwd, "./captureData.json"),
+		captureData: path.resolve(cwd, projectOptions.output, "./captureData.json"),
 		tempShareXConfig: path.resolve(__dirname, "./temp_ApplicationConfig.json"),
 		outputFolder: path.resolve(cwd, projectOptions.output),
 		shareXConfig:
