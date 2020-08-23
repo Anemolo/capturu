@@ -5,7 +5,7 @@ const { capture } = require("./capture");
 
 program
 	.arguments("[name]")
-	.option("-p|--publish", "Publish to vercel")
+	.option("-d|--deploy", "Publish to vercel")
 	.action((name) => {
 		// console.log(process.cwd());
 		capture({

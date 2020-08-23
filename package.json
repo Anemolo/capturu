@@ -3,6 +3,14 @@
 	"version": "1.0.0",
 	"description": "A CLI tool to take screenshots/videos, save in git, and create a vercel deployment with it's name",
 	"main": "index.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Anemolo/capturu.git"
+	},
+	"bugs": {
+		"url": "https://github.com/Anemolo/capturu/issues"
+	},
+	"homepage": "https://github.com/Anemolo/capturu",
 	"bin": {
 		"capturu": "./index.js"
 	},
@@ -12,5 +20,11 @@
 		"chalk": "^4.1.0",
 		"commander": "^6.0.0",
 		"random-words": "^1.1.1"
-	}
+	},
+	"keywords": [
+		"shareX",
+		"vercel",
+		"screenshot",
+		"screenrecord"
+	]
 }
